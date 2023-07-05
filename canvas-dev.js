@@ -20,13 +20,22 @@ function Piece(x, y, r, color, isKing, context) {
     this.y = y 
     this.radius = r
     this.color = color
-    this.isKing
+    this.isKing = isKing
     this.draw = function() {
         context.beginPath()
+        context.lineWidth = 1
         context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
         context.fillStyle = color
         context.fill()
         context.stroke()
+        if (this.isKing == true) {
+            context.beginPath()
+            context.lineWidth = 3
+            context.arc(this.x, this.y, this.radius / 1.75, 0, 2 * Math.PI);
+            context.fillStyle = color
+            context.fill()
+            context.stroke()
+        }
     }
 };
 
@@ -96,12 +105,14 @@ function drawPosition(position, coords, context) {
             var p = new Piece(coords[index][0], coords[index][1], 20, '#ff0000', false, ctx).draw()
        } else if (position[index] == 'rk') {
             //Draw Red King
+            var p = new Piece(coords[index][0], coords[index][1], 20, '#ff0000', true, ctx).draw()
        } else if (position[index] == 'wp') {
             //Draw White piece
             console.log('drawing white piece')
             var p = new Piece(coords[index][0], coords[index][1], 20, '#ffffff', false, ctx).draw()
        } else if (position[index] == 'wk') {
                //Draw White King
+           var p = new Piece(coords[index][0], coords[index][1], 20, '#ffffff', true, ctx).draw()
        } 
     }
 }
@@ -114,7 +125,7 @@ let startingPosition = [
     "rp", "rp", "rp", "rp",
     "rp", "rp", "rp", "rp",
     "rp", "rp", "rp", "rp",
-    "", "", "", "",
+    "rk", "wk", "", "",
     "", "", "", "",
     "wp", "wp", "wp", "wp",
     "wp", "wp", "wp", "wp",
