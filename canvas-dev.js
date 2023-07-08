@@ -1,5 +1,12 @@
 const canvas  = document.getElementById('board');
 const ctx = canvas.getContext("2d");
+const colors = {
+    red: "#CC0000",
+    white: "#FDEEC6",
+    light: "#FFFFCC",
+    dark: "#669966"
+}
+
 console.log('Loading Js...');
 //ctx.fillStyle = "#FF0000";
 //ctx.fillRect(0, 0, 150, 75);
@@ -46,14 +53,14 @@ function drawBoard() {
             // This is an odd row
             let start = 0
             for (let col = 1; col < 5; col++) {
-                let s = new Square(start, index*60, 60, 60, '#00ff00', ctx).draw()
+                let s = new Square(start, index*60, 60, 60, colors.dark, ctx).draw()
                 start += 120
             }
         } else {
             // This is an even row
             let start = 60
             for (let col = 1; col < 5; col++) {
-                let s = new Square(start, index*60, 60, 60, '#00ff00', ctx).draw()
+                let s = new Square(start, index*60, 60, 60, colors.dark, ctx).draw()
                 start += 120
             }
         }     
@@ -102,17 +109,17 @@ function drawPosition(position, coords, context) {
        if (position[index] == 'rp') {
             //Draw Red piece
             console.log('drawing red piece')
-            var p = new Piece(coords[index][0], coords[index][1], 20, '#ff0000', false, ctx).draw()
+            var p = new Piece(coords[index][0], coords[index][1], 20, colors.red, false, ctx).draw()
        } else if (position[index] == 'rk') {
             //Draw Red King
-            var p = new Piece(coords[index][0], coords[index][1], 20, '#ff0000', true, ctx).draw()
+            var p = new Piece(coords[index][0], coords[index][1], 20, colors.red, true, ctx).draw()
        } else if (position[index] == 'wp') {
             //Draw White piece
             console.log('drawing white piece')
-            var p = new Piece(coords[index][0], coords[index][1], 20, '#ffffff', false, ctx).draw()
+            var p = new Piece(coords[index][0], coords[index][1], 20, colors.white, false, ctx).draw()
        } else if (position[index] == 'wk') {
                //Draw White King
-           var p = new Piece(coords[index][0], coords[index][1], 20, '#ffffff', true, ctx).draw()
+           var p = new Piece(coords[index][0], coords[index][1], 20, colors.white, true, ctx).draw()
        } 
     }
 }
