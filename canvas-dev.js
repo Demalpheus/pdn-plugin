@@ -6,6 +6,7 @@ const colors = {
     light: "#FFFFCC",
     dark: "#669966"
 }
+var showNumbers = true;
 
 console.log('Loading Js...');
 //ctx.fillStyle = "#FF0000";
@@ -53,12 +54,17 @@ function drawBoard() {
     ctx.rect(0, 0, canvas.width, canvas.height)
     ctx.fill()
     ctx.stroke()
+    let boardNumber = 0
     for (let index = 0; index < 8; index++) {
         if (index % 2 == 1) {
             // This is an odd row
             let start = 0
             for (let col = 1; col < 5; col++) {
                 let s = new Square(start, index*60, 60, 60, colors.dark, ctx).draw()
+                if (showNumbers == true) {
+                    boardNumber += 1
+                    drawSquareNumber(boardNumber, start + 3, (index*60)+12)
+                }
                 start += 120
             }
         } else {
@@ -66,10 +72,20 @@ function drawBoard() {
             let start = 60
             for (let col = 1; col < 5; col++) {
                 let s = new Square(start, index*60, 60, 60, colors.dark, ctx).draw()
+                if (showNumbers == true) {
+                    boardNumber += 1
+                    drawSquareNumber(boardNumber, start + 3, (index*60)+12)
+                }
                 start += 120
             }
         }     
     }
+}
+
+function drawSquareNumber(number, x, y, color) {
+    ctx.font = "12px Arial"
+    ctx.fillStyle = colors.light
+    ctx.fillText(number, x, y)
 }
 
 function getPiecePlacements(canvas) {
