@@ -137,7 +137,7 @@ let startingPosition = [
     "rp", "rp", "rp", "rp",
     "rp", "rp", "rp", "rp",
     "rp", "rp", "rp", "rp",
-    "rk", "wk", "", "",
+    "", "", "", "",
     "", "", "", "",
     "wp", "wp", "wp", "wp",
     "wp", "wp", "wp", "wp",
