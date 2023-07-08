@@ -7,6 +7,18 @@ const colors = {
     dark: "#669966"
 }
 var showNumbers = true;
+var reverseBoard = true;
+
+var startingPosition = [
+    "rp", "rp", "rp", "rp",
+    "rp", "rp", "rp", "rp",
+    "rp", "rp", "rp", "rp",
+    "", "", "", "",
+    "", "", "", "",
+    "wp", "wp", "wp", "wp",
+    "wp", "wp", "wp", "wp",
+    "wp", "wp", "wp", "wp"
+]
 
 console.log('Loading Js...');
 //ctx.fillStyle = "#FF0000";
@@ -54,7 +66,7 @@ function drawBoard() {
     ctx.rect(0, 0, canvas.width, canvas.height)
     ctx.fill()
     ctx.stroke()
-    let boardNumber = 0
+    let boardNumber = (reverseBoard) ? 33 : 0
     for (let index = 0; index < 8; index++) {
         if (index % 2 == 1) {
             // This is an odd row
@@ -62,7 +74,7 @@ function drawBoard() {
             for (let col = 1; col < 5; col++) {
                 let s = new Square(start, index*60, 60, 60, colors.dark, ctx).draw()
                 if (showNumbers == true) {
-                    boardNumber += 1
+                    boardNumber += (reverseBoard) ? -1 : 1
                     drawSquareNumber(boardNumber, start + 3, (index*60)+12)
                 }
                 start += 120
@@ -73,7 +85,7 @@ function drawBoard() {
             for (let col = 1; col < 5; col++) {
                 let s = new Square(start, index*60, 60, 60, colors.dark, ctx).draw()
                 if (showNumbers == true) {
-                    boardNumber += 1
+                    boardNumber += (reverseBoard) ? -1 : 1
                     drawSquareNumber(boardNumber, start + 3, (index*60)+12)
                 }
                 start += 120
@@ -125,6 +137,9 @@ function getPiecePlacements(canvas) {
 
 function drawPosition(position, coords, context) {
     // Receive an array of pieces and draw them on the board
+    if (reverseBoard == true) {
+        position = position.reverse()
+    }
     for (let index = 0; index < position.length; index++) {
         console.log('Checking index: ' + index + ' for piece: ' + position[index])
        if (position[index] == 'rp') {
@@ -149,16 +164,6 @@ drawBoard();
 console.log(getPiecePlacements(canvas));
 let coordinates = getPiecePlacements(canvas);
 
-let startingPosition = [
-    "rp", "rp", "rp", "rp",
-    "rp", "rp", "rp", "rp",
-    "rp", "rp", "rp", "rp",
-    "", "", "", "",
-    "", "", "", "",
-    "wp", "wp", "wp", "wp",
-    "wp", "wp", "wp", "wp",
-    "wp", "wp", "wp", "wp"
-]
 drawPosition(startingPosition, coordinates, ctx);
 
 /*
