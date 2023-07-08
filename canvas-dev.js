@@ -47,7 +47,12 @@ function Piece(x, y, r, color, isKing, context) {
 };
 
 function drawBoard() {
-    
+    // Color the background
+    ctx.beginPath()
+    ctx.fillStyle = colors.light
+    ctx.rect(0, 0, canvas.width, canvas.height)
+    ctx.fill()
+    ctx.stroke()
     for (let index = 0; index < 8; index++) {
         if (index % 2 == 1) {
             // This is an odd row
