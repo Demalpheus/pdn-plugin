@@ -160,12 +160,48 @@ function drawPosition(position, coords, context) {
     }
 }
 
+function setPosition(fen) {
+    // Interprets a FEN string to return the desired position
+    // Example FEN 
+    // [FEN "B:W18,24,27,28,K10,K15:B12,16,20,K22,K25,K29"]
+    let turn = fen.split(':')[0].replace("FEN", "").replace("[","").replace(" ","").replace('"',"")
+    console.log('current Turn: ' + turn)
+    let redString = fen.split(":")[2].replace("B","").replace('"',"").replace("]","").split(",")
+    let whiteString = fen.split(":")[1].replace("W","").replace('"',"").replace("]","").split(",")
+    console.log('Red squares: ' + redString)
+    console.log('White squares: ' + whiteString)
+    let position = []
+    for (let index = 0; index < 32; index++) {
+       position.push("") 
+    }
+    redString.forEach(element => {
+        if (element.indexOf("K") > -1) {
+            let p = element.replace("K","")
+            position[p-1] = "rk"
+        } else {
+            position[element-1] = "rp"
+        }
+    });
+    whiteString.forEach(element => { 
+        if (element.search("K") > -1) {
+            let p = element.replace("K", "")
+            position[p-1] = "wk"
+        } else {
+            position[element-1] = "wp"
+        }
+    });
+    console.log('New Position:')
+    console.log(position)
+    return position
+}
+
 drawBoard();
 console.log(getPiecePlacements(canvas));
 let coordinates = getPiecePlacements(canvas);
 
-drawPosition(startingPosition, coordinates, ctx);
-
+//drawPosition(startingPosition, coordinates, ctx);
+let pos = setPosition('[FEN "W:W18,24,27,28,K10,K15:B12,16,20,K22,K25,K29"]')
+drawPosition(pos, coordinates, ctx);
 /*
 const pos = [
     new Piece(90, 30, 20, '#ff0000', false, ctx).draw(),
