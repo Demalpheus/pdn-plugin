@@ -6,6 +6,8 @@ const colors = {
     light: "#FFFFCC",
     dark: "#669966"
 }
+var numberFont = "12px Arial"
+
 var showNumbers = true;
 var reverseBoard = true;
 
@@ -66,36 +68,37 @@ function drawBoard() {
     ctx.rect(0, 0, canvas.width, canvas.height)
     ctx.fill()
     ctx.stroke()
+    let size = canvas.width / 8
     let boardNumber = (reverseBoard) ? 33 : 0
     for (let index = 0; index < 8; index++) {
         if (index % 2 == 1) {
             // This is an odd row
             let start = 0
             for (let col = 1; col < 5; col++) {
-                let s = new Square(start, index*60, 60, 60, colors.dark, ctx).draw()
+                let s = new Square(start, index*size, size, size, colors.dark, ctx).draw()
                 if (showNumbers == true) {
                     boardNumber += (reverseBoard) ? -1 : 1
-                    drawSquareNumber(boardNumber, start + 3, (index*60)+12)
+                    drawSquareNumber(boardNumber, start + 3, (index*size)+12)
                 }
-                start += 120
+                start += (size * 2)
             }
         } else {
             // This is an even row
-            let start = 60
+            let start = size
             for (let col = 1; col < 5; col++) {
-                let s = new Square(start, index*60, 60, 60, colors.dark, ctx).draw()
+                let s = new Square(start, index*size, size, size, colors.dark, ctx).draw()
                 if (showNumbers == true) {
                     boardNumber += (reverseBoard) ? -1 : 1
-                    drawSquareNumber(boardNumber, start + 3, (index*60)+12)
+                    drawSquareNumber(boardNumber, start + 3, (index*size)+12)
                 }
-                start += 120
+                start += (size * 2)
             }
         }     
     }
 }
 
 function drawSquareNumber(number, x, y, color) {
-    ctx.font = "12px Arial"
+    ctx.font = numberFont
     ctx.fillStyle = colors.light
     ctx.fillText(number, x, y)
 }
@@ -140,22 +143,23 @@ function drawPosition(position, coords, context) {
     if (reverseBoard == true) {
         position = position.reverse()
     }
+    let radius = canvas.width / 8 * .33
     for (let index = 0; index < position.length; index++) {
         console.log('Checking index: ' + index + ' for piece: ' + position[index])
        if (position[index] == 'rp') {
             //Draw Red piece
             console.log('drawing red piece')
-            var p = new Piece(coords[index][0], coords[index][1], 20, colors.red, false, ctx).draw()
+            var p = new Piece(coords[index][0], coords[index][1], radius, colors.red, false, ctx).draw()
        } else if (position[index] == 'rk') {
             //Draw Red King
-            var p = new Piece(coords[index][0], coords[index][1], 20, colors.red, true, ctx).draw()
+            var p = new Piece(coords[index][0], coords[index][1], radius, colors.red, true, ctx).draw()
        } else if (position[index] == 'wp') {
             //Draw White piece
             console.log('drawing white piece')
-            var p = new Piece(coords[index][0], coords[index][1], 20, colors.white, false, ctx).draw()
+            var p = new Piece(coords[index][0], coords[index][1], radius, colors.white, false, ctx).draw()
        } else if (position[index] == 'wk') {
                //Draw White King
-           var p = new Piece(coords[index][0], coords[index][1], 20, colors.white, true, ctx).draw()
+           var p = new Piece(coords[index][0], coords[index][1], radius, colors.white, true, ctx).draw()
        } 
     }
 }
