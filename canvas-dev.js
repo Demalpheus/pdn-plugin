@@ -25,8 +25,10 @@ var startingPosition = [
 class FENComponent extends HTMLElement {
     connectedCallback() {
         let pos = this.innerHTML;
-       console.log('Position: ' + pos); 
+        console.log('Position: ' + pos); 
         let attr = this.getAttribute('data-fen');
+        let reversed = ((null == this.getAttribute('data-reverse-board')) ? true : this.getAttribute('data-reverse-board'))
+        console.log('Position Reversed?: ' + reversed);
         console.log('Attribute: ' + attr);
         let newelement = document.createElement('canvas');
         newelement.width = 480;
