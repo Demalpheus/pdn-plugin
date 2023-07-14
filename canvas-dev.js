@@ -22,6 +22,23 @@ var startingPosition = [
     "wp", "wp", "wp", "wp"
 ]
 
+class FENComponent extends HTMLElement {
+    connectedCallback() {
+        let pos = this.innerHTML
+        
+        this.innerHTML = 'itest'
+        //this.innerHTML = `<canvas id="testing" width=480 height=480 \></canvas>`
+        //let c = document.getElementById('testing');
+        //let context = c.getContext('2d')
+        //drawPosition(pos, coordinates, ctx);
+
+        //this.innerHTML = 'Testing FEN insertion'
+    }
+}
+
+customElements.define('pdn-fen', FENComponent);
+
+
 console.log('Loading Js...');
 //ctx.fillStyle = "#FF0000";
 //ctx.fillRect(0, 0, 150, 75);
