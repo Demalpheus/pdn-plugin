@@ -110,7 +110,7 @@ function drawBoard(width, height, context) {
                 let s = new Square(start, index*size, size, size, colors.dark, context).draw()
                 if (showNumbers == true) {
                     boardNumber += (reverseBoard) ? -1 : 1
-                    drawSquareNumber(boardNumber, start + 3, (index*size)+12)
+                    drawSquareNumber(boardNumber, start + 3, (index*size)+12, null, context)
                 }
                 start += (size * 2)
             }
@@ -121,7 +121,8 @@ function drawBoard(width, height, context) {
                 let s = new Square(start, index*size, size, size, colors.dark, context).draw()
                 if (showNumbers == true) {
                     boardNumber += (reverseBoard) ? -1 : 1
-                    drawSquareNumber(boardNumber, start + 3, (index*size)+12)
+                    console.log(context)
+                    drawSquareNumber(boardNumber, start + 3, (index*size)+12, null, context)
                 }
                 start += (size * 2)
             }
@@ -129,10 +130,10 @@ function drawBoard(width, height, context) {
     }
 }
 
-function drawSquareNumber(number, x, y, color) {
-    ctx.font = numberFont
-    ctx.fillStyle = colors.light
-    ctx.fillText(number, x, y)
+function drawSquareNumber(number, x, y, color, context) {
+    context.font = numberFont
+    context.fillStyle = colors.light
+    context.fillText(number, x, y)
 }
 
 function getPiecePlacements(canvas) {
