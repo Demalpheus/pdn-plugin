@@ -24,9 +24,24 @@ var startingPosition = [
 
 class FENComponent extends HTMLElement {
     connectedCallback() {
-        let pos = this.innerHTML
-        
-        this.innerHTML = 'itest'
+        let pos = this.innerHTML;
+       console.log('Position: ' + pos); 
+        let attr = this.getAttribute('data-fen');
+        console.log('Attribute: ' + attr);
+        let newelement = document.createElement('canvas');
+        newelement.width = 480;
+        newelement.height = 480;
+        this.appendChild(newelement);
+        let context = newelement.getContext("2d");
+        drawBoard(newelement.width, newelement.height, context);
+        let coordinates = getPiecePlacements(newelement);
+        let position = setPosition(attr)
+        console.log('NEW POSITION RETURNED: ' + position);
+        drawPosition(position, coordinates, context);
+        //context.fillStyle = '#CC0000';
+        //context.fillRect(0, 0, 10, 10);
+        //let newSquare = new Square(0, 0, 60, 60, colors.dark, context).draw();
+        //let newsquare = new Square(0, 0, 10, 10, colors.red, context);
         //this.innerHTML = `<canvas id="testing" width=480 height=480 \></canvas>`
         //let c = document.getElementById('testing');
         //let context = c.getContext('2d')
@@ -78,21 +93,21 @@ function Piece(x, y, r, color, isKing, context) {
     }
 };
 
-function drawBoard() {
+function drawBoard(width, height, context) {
     // Color the background
-    ctx.beginPath()
-    ctx.fillStyle = colors.light
-    ctx.rect(0, 0, canvas.width, canvas.height)
-    ctx.fill()
-    ctx.stroke()
-    let size = canvas.width / 8
+    context.beginPath()
+    context.fillStyle = colors.light
+    context.rect(0, 0, width, height)
+    context.fill()
+    context.stroke()
+    let size = width / 8
     let boardNumber = (reverseBoard) ? 33 : 0
     for (let index = 0; index < 8; index++) {
         if (index % 2 == 1) {
             // This is an odd row
             let start = 0
             for (let col = 1; col < 5; col++) {
-                let s = new Square(start, index*size, size, size, colors.dark, ctx).draw()
+                let s = new Square(start, index*size, size, size, colors.dark, context).draw()
                 if (showNumbers == true) {
                     boardNumber += (reverseBoard) ? -1 : 1
                     drawSquareNumber(boardNumber, start + 3, (index*size)+12)
@@ -103,7 +118,7 @@ function drawBoard() {
             // This is an even row
             let start = size
             for (let col = 1; col < 5; col++) {
-                let s = new Square(start, index*size, size, size, colors.dark, ctx).draw()
+                let s = new Square(start, index*size, size, size, colors.dark, context).draw()
                 if (showNumbers == true) {
                     boardNumber += (reverseBoard) ? -1 : 1
                     drawSquareNumber(boardNumber, start + 3, (index*size)+12)
@@ -166,17 +181,17 @@ function drawPosition(position, coords, context) {
        if (position[index] == 'rp') {
             //Draw Red piece
             console.log('drawing red piece')
-            var p = new Piece(coords[index][0], coords[index][1], radius, colors.red, false, ctx).draw()
+            var p = new Piece(coords[index][0], coords[index][1], radius, colors.red, false, context).draw()
        } else if (position[index] == 'rk') {
             //Draw Red King
-            var p = new Piece(coords[index][0], coords[index][1], radius, colors.red, true, ctx).draw()
+            var p = new Piece(coords[index][0], coords[index][1], radius, colors.red, true, context).draw()
        } else if (position[index] == 'wp') {
             //Draw White piece
             console.log('drawing white piece')
-            var p = new Piece(coords[index][0], coords[index][1], radius, colors.white, false, ctx).draw()
+            var p = new Piece(coords[index][0], coords[index][1], radius, colors.white, false, context).draw()
        } else if (position[index] == 'wk') {
                //Draw White King
-           var p = new Piece(coords[index][0], coords[index][1], radius, colors.white, true, ctx).draw()
+           var p = new Piece(coords[index][0], coords[index][1], radius, colors.white, true, context).draw()
        } 
     }
 }
@@ -216,7 +231,7 @@ function setPosition(fen) {
     return position
 }
 
-drawBoard();
+drawBoard(canvas.width, canvas.height, ctx);
 console.log(getPiecePlacements(canvas));
 let coordinates = getPiecePlacements(canvas);
 
