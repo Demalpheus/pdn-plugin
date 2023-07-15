@@ -8,8 +8,8 @@ const colors = {
 }
 var numberFont = "12px Arial"
 
-var showNumbers = true;
-var reverseBoard = true;
+//var showNumbers = true;
+//var reverseBoard = true;
 
 var startingPosition = [
     "rp", "rp", "rp", "rp",
@@ -29,6 +29,8 @@ class FENComponent extends HTMLElement {
         let attr = this.getAttribute('data-fen');
         // Check to see if the data-reverse-board value is set, else use a default value of true
         let reversed = ((null == this.getAttribute('data-reverse-board')) ? true : this.getAttribute('data-reverse-board'))
+        let showNumbers = ((null == this.getAttribute('data-show-numbers')) ? true : this.getAttribute('data-show-numbers'))
+
         console.log('Position Reversed?: ' + reversed);
         console.log('Attribute: ' + attr);
         let newelement = document.createElement('canvas');
@@ -36,11 +38,11 @@ class FENComponent extends HTMLElement {
         newelement.height = 480;
         this.appendChild(newelement);
         let context = newelement.getContext("2d");
-        drawBoard(newelement.width, newelement.height, reversed, context);
+        drawBoard(newelement.width, newelement.height, reversed, showNumbers, context);
         let coordinates = getPiecePlacements(newelement);
         let position = setPosition(attr)
         console.log('NEW POSITION RETURNED: ' + position);
-        drawPosition(position, coordinates, newelement.width, context);
+        drawPosition(position, coordinates, newelement.width, reversed, context);
         //context.fillStyle = '#CC0000';
         //context.fillRect(0, 0, 10, 10);
         //let newSquare = new Square(0, 0, 60, 60, colors.dark, context).draw();
@@ -96,7 +98,7 @@ function Piece(x, y, r, color, isKing, context) {
     }
 };
 
-function drawBoard(width, height, isReversed, context) {
+function drawBoard(width, height, isReversed, showNumbers, context) {
     // Color the background
     context.beginPath()
     context.fillStyle = colors.light
@@ -174,7 +176,7 @@ function getPiecePlacements(canvas) {
     return placements
 }
 
-function drawPosition(position, coords, width, context) {
+function drawPosition(position, coords, width, reverseBoard, context) {
     // Receive an array of pieces and draw them on the board
     if (reverseBoard == true) {
         position = position.reverse()
