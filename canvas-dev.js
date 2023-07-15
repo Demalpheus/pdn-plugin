@@ -1,5 +1,3 @@
-//const canvas  = document.getElementById('board');
-//const ctx = canvas.getContext("2d");
 const colors = {
     red: "#CC0000",
     white: "#FDEEC6",
@@ -7,9 +5,6 @@ const colors = {
     dark: "#669966"
 }
 var numberFont = "12px Arial"
-
-//var showNumbers = true;
-//var reverseBoard = true;
 
 var startingPosition = [
     "rp", "rp", "rp", "rp",
@@ -43,25 +38,11 @@ class FENComponent extends HTMLElement {
         let position = setPosition(attr)
         console.log('NEW POSITION RETURNED: ' + position);
         drawPosition(position, coordinates, newelement.width, reversed, context);
-        //context.fillStyle = '#CC0000';
-        //context.fillRect(0, 0, 10, 10);
-        //let newSquare = new Square(0, 0, 60, 60, colors.dark, context).draw();
-        //let newsquare = new Square(0, 0, 10, 10, colors.red, context);
-        //this.innerHTML = `<canvas id="testing" width=480 height=480 \></canvas>`
-        //let c = document.getElementById('testing');
-        //let context = c.getContext('2d')
-        //drawPosition(pos, coordinates, ctx);
-
-        //this.innerHTML = 'Testing FEN insertion'
     }
 }
 
 customElements.define('pdn-fen', FENComponent);
 
-
-console.log('Loading Js...');
-//ctx.fillStyle = "#FF0000";
-//ctx.fillRect(0, 0, 150, 75);
 function Square(x, y, width, height, color, context) {
     this.x = x
     this.y = y
@@ -247,17 +228,3 @@ let pos = setPosition('[FEN "W:W18,24,27,28,K10,K15:B12,16,20,K22,K25,K29"]')
 drawPosition(pos, coordinates, ctx);
 */
 
-/*
-const pos = [
-    new Piece(90, 30, 20, '#ff0000', false, ctx).draw(),
-    new Piece(210, 30, 20, '#ff0000', false, ctx).draw(),
-    new Piece(330, 30, 20, '#ff0000', false, ctx).draw(),
-    new Piece(450, 30, 20, '#ff0000', false, ctx).draw(),
-    new Piece(30, 90, 20, '#ff0000', false, ctx).draw(),
-    new Piece(150, 90, 20, '#ff0000', false, ctx).draw(),
-    new Piece(270, 90, 20, '#ff0000', false, ctx).draw(),
-    new Piece(390, 90, 20, '#ff0000', false, ctx).draw()
-]
-*/
-//let p = new Piece(90, 30, 20, '#ff0000', false, ctx).draw();
-//let p2 = new Piece(210, 30, 20, '#ffffff', false, ctx).draw();
