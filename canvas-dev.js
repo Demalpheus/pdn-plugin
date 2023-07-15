@@ -1,5 +1,5 @@
-const canvas  = document.getElementById('board');
-const ctx = canvas.getContext("2d");
+//const canvas  = document.getElementById('board');
+//const ctx = canvas.getContext("2d");
 const colors = {
     red: "#CC0000",
     white: "#FDEEC6",
@@ -27,6 +27,7 @@ class FENComponent extends HTMLElement {
         let pos = this.innerHTML;
         console.log('Position: ' + pos); 
         let attr = this.getAttribute('data-fen');
+        // Check to see if the data-reverse-board value is set, else use a default value of true
         let reversed = ((null == this.getAttribute('data-reverse-board')) ? true : this.getAttribute('data-reverse-board'))
         console.log('Position Reversed?: ' + reversed);
         console.log('Attribute: ' + attr);
@@ -35,11 +36,11 @@ class FENComponent extends HTMLElement {
         newelement.height = 480;
         this.appendChild(newelement);
         let context = newelement.getContext("2d");
-        drawBoard(newelement.width, newelement.height, context);
+        drawBoard(newelement.width, newelement.height, reversed, context);
         let coordinates = getPiecePlacements(newelement);
         let position = setPosition(attr)
         console.log('NEW POSITION RETURNED: ' + position);
-        drawPosition(position, coordinates, context);
+        drawPosition(position, coordinates, newelement.width, context);
         //context.fillStyle = '#CC0000';
         //context.fillRect(0, 0, 10, 10);
         //let newSquare = new Square(0, 0, 60, 60, colors.dark, context).draw();
@@ -95,7 +96,7 @@ function Piece(x, y, r, color, isKing, context) {
     }
 };
 
-function drawBoard(width, height, context) {
+function drawBoard(width, height, isReversed, context) {
     // Color the background
     context.beginPath()
     context.fillStyle = colors.light
@@ -103,7 +104,7 @@ function drawBoard(width, height, context) {
     context.fill()
     context.stroke()
     let size = width / 8
-    let boardNumber = (reverseBoard) ? 33 : 0
+    let boardNumber = (isReversed) ? 33 : 0
     for (let index = 0; index < 8; index++) {
         if (index % 2 == 1) {
             // This is an odd row
@@ -111,7 +112,7 @@ function drawBoard(width, height, context) {
             for (let col = 1; col < 5; col++) {
                 let s = new Square(start, index*size, size, size, colors.dark, context).draw()
                 if (showNumbers == true) {
-                    boardNumber += (reverseBoard) ? -1 : 1
+                    boardNumber += (isReversed) ? -1 : 1
                     drawSquareNumber(boardNumber, start + 3, (index*size)+12, null, context)
                 }
                 start += (size * 2)
@@ -122,7 +123,7 @@ function drawBoard(width, height, context) {
             for (let col = 1; col < 5; col++) {
                 let s = new Square(start, index*size, size, size, colors.dark, context).draw()
                 if (showNumbers == true) {
-                    boardNumber += (reverseBoard) ? -1 : 1
+                    boardNumber += (isReversed) ? -1 : 1
                     console.log(context)
                     drawSquareNumber(boardNumber, start + 3, (index*size)+12, null, context)
                 }
@@ -173,12 +174,12 @@ function getPiecePlacements(canvas) {
     return placements
 }
 
-function drawPosition(position, coords, context) {
+function drawPosition(position, coords, width, context) {
     // Receive an array of pieces and draw them on the board
     if (reverseBoard == true) {
         position = position.reverse()
     }
-    let radius = canvas.width / 8 * .33
+    let radius = width / 8 * .33
     for (let index = 0; index < position.length; index++) {
         console.log('Checking index: ' + index + ' for piece: ' + position[index])
        if (position[index] == 'rp') {
@@ -234,13 +235,16 @@ function setPosition(fen) {
     return position
 }
 
-drawBoard(canvas.width, canvas.height, ctx);
+/* Initial Example Calls
+drawBoard(canvas.width, canvas.height, false, ctx);
 console.log(getPiecePlacements(canvas));
 let coordinates = getPiecePlacements(canvas);
 
 //drawPosition(startingPosition, coordinates, ctx);
 let pos = setPosition('[FEN "W:W18,24,27,28,K10,K15:B12,16,20,K22,K25,K29"]')
 drawPosition(pos, coordinates, ctx);
+*/
+
 /*
 const pos = [
     new Piece(90, 30, 20, '#ff0000', false, ctx).draw(),
