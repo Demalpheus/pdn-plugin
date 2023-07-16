@@ -19,28 +19,28 @@ var startingPosition = [
 
 class FENComponent extends HTMLElement {
     connectedCallback() {
-        let fen = this.getAttribute('data-fen');
+        let fen = this.getAttribute('data-fen')
         // Check to see if the data-reverse-board value is set, else use a default value of true
         let reversed = ((null == this.getAttribute('data-reverse-board')) ? true : this.getAttribute('data-reverse-board'))
         let showNumbers = ((null == this.getAttribute('data-show-numbers')) ? true : this.getAttribute('data-show-numbers'))
 
-        //console.log('Position Reversed?: ' + reversed);
-        //console.log('Attribute: ' + fen);
-        let newBoard = document.createElement('canvas');
-        let size = getBoardSize();
-        newBoard.width = size;
-        newBoard.height = size;
-        this.appendChild(newBoard);
-        let context = newBoard.getContext("2d");
-        drawBoard(newBoard.width, newBoard.height, reversed, showNumbers, context);
-        let coordinates = getPiecePlacements(newBoard);
+        //console.log('Position Reversed?: ' + reversed)
+        //console.log('Attribute: ' + fen)
+        let newBoard = document.createElement('canvas')
+        let size = getBoardSize()
+        newBoard.width = size
+        newBoard.height = size
+        this.appendChild(newBoard)
+        let context = newBoard.getContext("2d")
+        drawBoard(newBoard.width, newBoard.height, reversed, showNumbers, context)
+        let coordinates = getPiecePlacements(newBoard)
         let position = setPosition(fen)
-        //console.log('NEW POSITION RETURNED: ' + position);
-        drawPosition(position, coordinates, newBoard.width, reversed, context);
+        //console.log('NEW POSITION RETURNED: ' + position)
+        drawPosition(position, coordinates, newBoard.width, reversed, context)
     }
 }
 
-customElements.define('pdn-fen', FENComponent);
+customElements.define('pdn-fen', FENComponent)
 
 function getBoardSize() {
     let w = window.innerWidth
@@ -68,7 +68,7 @@ function Square(x, y, width, height, color, context) {
         context.fillStyle = this.color
         context.fillRect(this.x, this.y, this.width, this.height)
     }
-};
+}
 
 function Piece(x, y, r, color, isKing, context) {
     this.x = x
@@ -79,20 +79,20 @@ function Piece(x, y, r, color, isKing, context) {
     this.draw = function() {
         context.beginPath()
         context.lineWidth = 1
-        context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+        context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI)
         context.fillStyle = color
         context.fill()
         context.stroke()
         if (this.isKing == true) {
             context.beginPath()
             context.lineWidth = 3
-            context.arc(this.x, this.y, this.radius / 1.75, 0, 2 * Math.PI);
+            context.arc(this.x, this.y, this.radius / 1.75, 0, 2 * Math.PI)
             context.fillStyle = color
             context.fill()
             context.stroke()
         }
     }
-};
+}
 
 function drawBoard(width, height, isReversed, showNumbers, context) {
     // Color the background
@@ -219,7 +219,7 @@ function setPosition(fen) {
         } else {
             position[element-1] = "rp"
         }
-    });
+    })
     whiteString.forEach(element => { 
         if (element.search("K") > -1) {
             let p = element.replace("K", "")
@@ -227,19 +227,19 @@ function setPosition(fen) {
         } else {
             position[element-1] = "wp"
         }
-    });
+    })
     //console.log('New Position:')
     //console.log(position)
     return position
 }
 
 /* Initial Example Calls
-drawBoard(canvas.width, canvas.height, false, ctx);
-console.log(getPiecePlacements(canvas));
-let coordinates = getPiecePlacements(canvas);
+drawBoard(canvas.width, canvas.height, false, ctx)
+console.log(getPiecePlacements(canvas))
+let coordinates = getPiecePlacements(canvas)
 
-//drawPosition(startingPosition, coordinates, ctx);
+//drawPosition(startingPosition, coordinates, ctx)
 let pos = setPosition('[FEN "W:W18,24,27,28,K10,K15:B12,16,20,K22,K25,K29"]')
-drawPosition(pos, coordinates, ctx);
+drawPosition(pos, coordinates, ctx)
 */
 
