@@ -24,22 +24,39 @@ class FENComponent extends HTMLElement {
         let reversed = ((null == this.getAttribute('data-reverse-board')) ? true : this.getAttribute('data-reverse-board'))
         let showNumbers = ((null == this.getAttribute('data-show-numbers')) ? true : this.getAttribute('data-show-numbers'))
 
-        console.log('Position Reversed?: ' + reversed);
-        console.log('Attribute: ' + fen);
+        //console.log('Position Reversed?: ' + reversed);
+        //console.log('Attribute: ' + fen);
         let newBoard = document.createElement('canvas');
-        newBoard.width = 480;
-        newBoard.height = 480;
+        let size = getBoardSize();
+        newBoard.width = size;
+        newBoard.height = size;
         this.appendChild(newBoard);
         let context = newBoard.getContext("2d");
         drawBoard(newBoard.width, newBoard.height, reversed, showNumbers, context);
         let coordinates = getPiecePlacements(newBoard);
         let position = setPosition(fen)
-        console.log('NEW POSITION RETURNED: ' + position);
+        //console.log('NEW POSITION RETURNED: ' + position);
         drawPosition(position, coordinates, newBoard.width, reversed, context);
     }
 }
 
 customElements.define('pdn-fen', FENComponent);
+
+function getBoardSize() {
+    let w = window.innerWidth
+    let h = window.innerHeight
+    let s = 0
+    if (h > w) {
+        // This is probably a mobile device
+        s = Math.ceil(w * .90)
+    } else if (w > 800) {
+        // Desktop mode
+        s = Math.ceil(w * .30)
+    } else {
+        s = Math.ceil(w * .75)
+    }
+    return s
+}
 
 function Square(x, y, width, height, color, context) {
     this.x = x
@@ -105,7 +122,7 @@ function drawBoard(width, height, isReversed, showNumbers, context) {
                 let s = new Square(start, index*size, size, size, colors.dark, context).draw()
                 if (showNumbers == true) {
                     boardNumber += (isReversed) ? -1 : 1
-                    console.log(context)
+                    //console.log(context)
                     drawSquareNumber(boardNumber, start + 3, (index*size)+12, null, context)
                 }
                 start += (size * 2)
@@ -162,17 +179,17 @@ function drawPosition(position, coords, width, reverseBoard, context) {
     }
     let radius = width / 8 * .33
     for (let index = 0; index < position.length; index++) {
-        console.log('Checking index: ' + index + ' for piece: ' + position[index])
+        //console.log('Checking index: ' + index + ' for piece: ' + position[index])
        if (position[index] == 'rp') {
             //Draw Red piece
-            console.log('drawing red piece')
+            //console.log('drawing red piece')
             var p = new Piece(coords[index][0], coords[index][1], radius, colors.red, false, context).draw()
        } else if (position[index] == 'rk') {
             //Draw Red King
             var p = new Piece(coords[index][0], coords[index][1], radius, colors.red, true, context).draw()
        } else if (position[index] == 'wp') {
             //Draw White piece
-            console.log('drawing white piece')
+            //console.log('drawing white piece')
             var p = new Piece(coords[index][0], coords[index][1], radius, colors.white, false, context).draw()
        } else if (position[index] == 'wk') {
                //Draw White King
@@ -186,11 +203,11 @@ function setPosition(fen) {
     // Example FEN 
     // [FEN "B:W18,24,27,28,K10,K15:B12,16,20,K22,K25,K29"]
     let turn = fen.split(':')[0].replace("FEN", "").replace("[","").replace(" ","").replace('"',"")
-    console.log('current Turn: ' + turn)
+    //console.log('current Turn: ' + turn)
     let redString = fen.split(":")[2].replace("B","").replace('"',"").replace("]","").split(",")
     let whiteString = fen.split(":")[1].replace("W","").replace('"',"").replace("]","").split(",")
-    console.log('Red squares: ' + redString)
-    console.log('White squares: ' + whiteString)
+    //console.log('Red squares: ' + redString)
+    //console.log('White squares: ' + whiteString)
     let position = []
     for (let index = 0; index < 32; index++) {
        position.push("") 
@@ -211,8 +228,8 @@ function setPosition(fen) {
             position[element-1] = "wp"
         }
     });
-    console.log('New Position:')
-    console.log(position)
+    //console.log('New Position:')
+    //console.log(position)
     return position
 }
 
