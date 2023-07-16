@@ -21,11 +21,16 @@ class FENComponent extends HTMLElement {
     connectedCallback() {
         let fen = this.getAttribute('data-fen')
         // Check to see if the data-reverse-board value is set, else use a default value of true
-        let reversed = ((null == this.getAttribute('data-reverse-board')) ? true : this.getAttribute('data-reverse-board'))
-        let showNumbers = ((null == this.getAttribute('data-show-numbers')) ? true : this.getAttribute('data-show-numbers'))
-
-        //console.log('Position Reversed?: ' + reversed)
-        //console.log('Attribute: ' + fen)
+        let reversedAttr = this.getAttribute('data-reverse-board')
+        let reversed = true
+        if (reversedAttr == "false") {
+            reversed = false
+        } 
+        let numbersAttr = this.getAttribute('data-show-numbers')
+        let showNumbers = true
+        if (numbersAttr == "false") {
+            showNumbers = false
+        }
         let newBoard = document.createElement('canvas')
         let size = getBoardSize()
         newBoard.width = size
@@ -102,7 +107,7 @@ function drawBoard(width, height, isReversed, showNumbers, context) {
     context.fill()
     context.stroke()
     let size = width / 8
-    let boardNumber = (isReversed) ? 33 : 0
+    let boardNumber = (isReversed == true) ? 33 : 0
     for (let index = 0; index < 8; index++) {
         if (index % 2 == 1) {
             // This is an odd row
